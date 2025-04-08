@@ -1,0 +1,63 @@
+
+import csv
+import os
+import glob
+
+def find_height_at_angle(csv_file, target_lateral, target_anterior):
+    with open(csv_file, 'r') as file:
+        reader = csv.DictReader(file)
+        for row in reader:
+            lateral = float(row['Lateral'])
+            anterior = float(row['Anterior'])
+            if abs(lateral - target_lateral) < 0.01 and abs(anterior - target_anterior) < 0.01:
+                return float(row['Height'])
+    return None
+
+def create_csv_with_specific_height(input_dir, output_csv):
+    with open(output_csv, 'w', newline='') as outfile:
+        fieldnames = ['Subject', 'Max Height', 'Max Lateral Angle', 'Max Anterior Angle',
+                      'Min Height', 'Min Lateral Angle', 'Min Anterior Angle',
+                      'Height at Specific Angle']
+        writer = csv.DictWriter(outfile, fieldnames=fieldnames)
+        writer.writeheader()
+
+        for csv_file in glob.glob(os.path.join(input_dir, '*_right_angle_measurements.csv')):
+            subject = os.path.basename(csv_file).split('_')[0]
+            with open(csv_file, 'r') as infile:
+                reader = csv.DictReader(infile)
+                heights = [float(row['Height']) for row in reader]
+                
+            max_height = max(heights)
+            min_height = min(heights)
+            
+            # Reset file pointer and re-read to find angles
+            with open(csv_file, 'r') as infile:
+                reader = csv.DictReader(infile)
+                for row in reader:
+                    if float(row['Height']) == max_height:
+                        max_lateral = float(row['Lateral'])
+                        max_anterior = float(row['Anterior'])
+                    if float(row['Height']) == min_height:
+                        min_lateral = float(row['Lateral'])
+                        min_anterior = float(row['Anterior'])
+
+            specific_height = find_height_at_angle(csv_file, 8, 31)  # Changed to 8, 33 for left
+
+            writer.writerow({
+                'Subject': subject,
+                'Max Height': max_height,
+                'Max Lateral Angle': max_lateral,
+                'Max Anterior Angle': max_anterior,
+                'Min Height': min_height,
+                'Min Lateral Angle': min_lateral,
+                'Min Anterior Angle': min_anterior,
+                'Height at Specific Angle': specific_height if specific_height is not None else 'N/A'
+            })
+
+# Paths
+input_dir = '/Volumes/PS1TB/HCP7T/LGN/Dimensions/Height_Measurement_csv_files'
+output_csv = '/Volumes/PS1TB/HCP7T/LGN/Dimensions/Height_and_Angles_right.csv'
+
+create_csv_with_specific_height(input_dir, output_csv)
+print(f"CSV file with height and angle information has been created at {output_csv}")
+
