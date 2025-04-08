@@ -8,7 +8,7 @@ Each script corresponds to a specific appendix in the supplemental materials sec
 
 ---
 
-## 📁 Script Overview
+## Script Overview
 
 |Appendix  | Title                                                                 
 |----------|-----------------------------------------------------------------------
@@ -33,7 +33,7 @@ Each script corresponds to a specific appendix in the supplemental materials sec
 
 ---
 
-## 🧪 How to Use
+## How to Use
 
 Each script is standalone and corresponds to a specific analysis module. Make sure you have the necessary dependencies installed, including:
 
