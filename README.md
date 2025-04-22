@@ -2,7 +2,7 @@
 
 This repository contains all Python scripts used in the research project titled:
 
-**"Structural Analysis of the Human Lateral Geniculate Nucleus (LGN) Using MRI-Based Segmentation"**
+**"Structural Analysis of the Human Lateral Geniculate Nucleus Using MRI-Based Segmentation"**
 
 Each script corresponds to a specific appendix in the supplemental materials section of the research paper. Together, they form a complete pipeline for LGN segmentation, volume and shape analysis, statistical processing, and 3D visualization in MNI space.
 
