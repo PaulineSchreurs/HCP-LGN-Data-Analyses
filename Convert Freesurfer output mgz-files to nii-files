@@ -1,18 +1,1 @@
-import os import nibabel as nib
-def convert_mgz_to_nii(input_dir, output_dir): print(f"Starting conversion process...") print(f"Input directory: {input_dir}") print(f"Output directory: {output_dir}")
-for root, dirs, files in os.walk(input_dir):
-    for filename in files:
-        if filename.endswith('.mgz'):
-            input_file = os.path.join(root, filename)
-            # Preserve the subdirectory structure in the output
-            rel_path = os.path.relpath(root, input_dir)
-            output_subdir = os.path.join(output_dir, rel_path)
-            os.makedirs(output_subdir, exist_ok=True)
-            output_file = os.path.join(output_subdir, filename.replace('.mgz', '.nii.gz'))
-            
-            print(f"Converting file: {input_file}")
-            img = nib.load(input_file)
-            nib.save(img, output_file)
-            print(f"Saved as: {output_file}")
 
-print("Conversion process completed.")
