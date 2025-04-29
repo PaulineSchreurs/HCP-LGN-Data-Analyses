@@ -1,0 +1,40 @@
+import os 
+import subprocess 
+import glob 
+import logging
+
+# Enable debugging
+logging.basicConfig(level=logging.DEBUG)
+
+# Set directories
+T1_DIR = "/Volumes/PS1TB/HCP7T/LGN/ro_T1_all_subjects" LGN_LEFT_DIR = "/Volumes/PS1TB/HCP7T/LGN/ro_LGN_Masks_Left" LGN_RIGHT_DIR = "/Volumes/PS1TB/HCP7T/LGN/ro_LGN_Masks_Right" OUTPUT_DIR = "/Volumes/PS1TB/HCP7T/LGN/T1_MNI"
+
+# Create output directory if it doesn't exist
+os.makedirs(OUTPUT_DIR, exist_ok=True)
+
+#  MNI template
+MNI_TEMPLATE = os.path.join(os.environ['FSLDIR'], "data/standard/MNI152_T1_1mm.nii.gz")
+logging.debug("Starting processing...")
+
+# Loop through all T1 files
+for T1 in glob.glob(os.path.join(T1_DIR, "*_T1_ro.nii.gz")): if os.path.isfile(T1): subject_id = os.path.basename(T1).replace("_T1_ro.nii.gz", "")
+   # Input files
+    LGN_LEFT = os.path.join(LGN_LEFT_DIR, f"{subject_id}_LGN_mask_left_ro.nii.gz")
+    LGN_RIGHT = os.path.join(LGN_RIGHT_DIR, f"{subject_id}_LGN_mask_right_ro.nii.gz")
+    
+    # Output files
+    T1_MNI = os.path.join(OUTPUT_DIR, f"{subject_id}_T1_ro_MNI.nii.gz")
+    LGN_LEFT_MNI = os.path.join(OUTPUT_DIR, f"{subject_id}_LGN_ro_left_MNI.nii.gz")
+    LGN_RIGHT_MNI = os.path.join(OUTPUT_DIR, f"{subject_id}_LGN_right_ro_MNI.nii.gz")
+    TRANSFORM_MAT = os.path.join(OUTPUT_DIR, f"{subject_id}_T1_to_MNI.mat")
+    
+    # Align T1 to MNI
+    subprocess.run(["flirt", "-in", T1, "-ref", MNI_TEMPLATE, "-out", T1_MNI, "-omat", TRANSFORM_MAT, "-dof", "6"], check=True)
+    
+    # Apply transformation to LGN masks
+    subprocess.run(["flirt", "-in", LGN_LEFT, "-ref", MNI_TEMPLATE, "-out", LGN_LEFT_MNI, "-applyxfm", "-init", TRANSFORM_MAT, "-interp", "nearestneighbour"], check=True)
+    subprocess.run(["flirt", "-in", LGN_RIGHT, "-ref", MNI_TEMPLATE, "-out", LGN_RIGHT_MNI, "-applyxfm", "-init", TRANSFORM_MAT, "-interp", "nearestneighbour"], check=True)
+    
+    logging.debug(f"Finished processing subject: {subject_id}")
+ 
+logging.debug("Processing complete")
