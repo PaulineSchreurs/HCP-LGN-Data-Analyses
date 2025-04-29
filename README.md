@@ -12,24 +12,23 @@ Each script corresponds to a specific appendix in the supplemental materials sec
 
 |Appendix  | Title                                                                 
 |----------|-----------------------------------------------------------------------
-| A        | Thalamic Segmentation Module 
-| B        | Volume Analyses 
-| C        | Histogram Visualization of LGN Volume Distributions 
-| D        | Scatter Plot of LGN Volume Correlation
-| E        | Raincloud Plot with Paired t-Test Analysis of LGN Volumes
-| F        | Center of Mass Coordinates in MNI Space
-| G        | Statistical Analysis of LGN Center of Mass
-| H        | Calculation of LGN Dimensions
-| I        | Right LGN Height Across Rotational Angles
-| J        | Aggregation of LGN Height with Angle Extraction
-| K        | Export LGN Height & Angle Data to CSV
-| L        | Longest Distance Between LGN Mask Points
-| M        | Creation of LGN Probability Maps in MNI Space
-| N        | Visualization of Right LGN Probabilistic Map
-| O        | Registration of LGN Masks Using FLIRT
-| P        | Merging LGN Masks into 4D Volumes Using FSL 
-| Q        | Thresholding LGN Probability Maps to Target Volumes
-| R        | 3D Surface Model Extraction from Right LGN Probability Map
+| C1       | Thalamic Segmentation Module 
+| C2       | Convert Freesurfer output mgz-files to nii-files
+| C3       | Volume Analyses
+| C4       | Histogram Visualization of LGN Volume Distributions 
+| C5       | Scatter Plot of LGN Volume Correlation 
+| C6       | Raincloud Plot with Paired t-Test Analysis of LGN Volumes 
+| C7       | Transformation T1 to MNI space, apply same transformation to LGN masks   
+| C8       | Automated Computation of Center of Mass Coordinates in MNI Space  
+| C9       | Statistical Analysis of LGN Center of Mass  
+| C10      | Calculation of LGN Dimensions  
+| C11      | Measure LGN dimensions along average angle from Trajectory Planning
+| C12      | Creation of LGN Probability Maps in MNI Space
+| C13      | Visualization of Right LGN Probabilistic Map
+| C14      | Registration of LGN Masks Using FLIRT
+| C15      | Merging LGN Masks into 4D Volumes Using FSL 
+| C16      | Creating and Thresholding LGN Probability Maps to Target Volumes
+| C17      | 3D Surface Model Extraction from Right LGN Probability Map
 
 ---
 
